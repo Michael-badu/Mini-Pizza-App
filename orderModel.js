@@ -8,7 +8,7 @@ const OrderSchema = new Schema({
     created_at: Date,
     state: {type: Number, default: 1},
     total_price: Number,
-    item: [{
+    items: [{
         name: String,
         price: Number,
         size: {type: String, enum: (['m', 's', 'l'])},

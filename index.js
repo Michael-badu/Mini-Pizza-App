@@ -19,11 +19,18 @@ app.get('/', (req, res) => {
 app.post('/order', async (req, res) => {
     const body = req.body;
 
-    const order = await orderModel.create({
-        items: body,
-        created_at: moment().format('yyy-mm-dd:hh:mm'),
+    const total_price = body.items.reduce((prev, curr) => {
+        prev += curr.price
+        return prev
+    }, 0);
 
+    const order = await orderModel.create({
+        items: body.items,
+        created_at: moment().toDate(),
+        total_price
     })
+
+    return res.json({status: true, order })
 })
 
 
