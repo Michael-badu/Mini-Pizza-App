@@ -1,8 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const orderModel = require('./orderModel');
-const userModel = require('./userModel');
+const orderModel = require('./Models/orderModel');
+const userModel = require('./Models/userModel');
 const moment = require('moment')
+const orderRouter = require('./routes/orders')
+const userRouter = require('./routes/users')
 
 const PORT = 3334
 
@@ -10,7 +12,8 @@ const app = express()
 
 
 app.use(express.json());
-
+app.use('/user',userRouter)
+app.use('/orders' ,orderRouter)
 
 app.get('/', (req, res) => {
     return res.json({status: true})
@@ -81,11 +84,6 @@ app.delete('/order/:id', async (req, res) => {
 
 
 mongoose.connect('mongodb://localhost:27017')
-// .then(() => {
-//     console.log('Connected to the db successfully')
-// }).catch((err) => {
-//     console.log('error connecting to db', err)
-// })
 
 mongoose.connection.on('connected', () => {
     console.log('Connected to Mongodb successfully')
